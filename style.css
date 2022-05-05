@@ -1,0 +1,30 @@
+:root {
+    --height-header: 60px;
+    --height-todolist: 300px;
+    --height-todolist-header: 30px;
+
+    --width-todolist: 400px;
+
+    --color-pink: pink;
+    --color-red-btn: maroon;
+    --color-hover: yellow;
+}
+
+/* reset browser css setting */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    user-select: none;
+}
+
+html,
+body {
+    width: 100vw;
+    height: 100vh;
+}
+
+body {
+    background-color: whitesmoke;
+}
