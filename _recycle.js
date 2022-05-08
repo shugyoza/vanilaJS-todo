@@ -140,6 +140,13 @@ const init = async (url, path, id) => {
     return;
 }
 
+/*
+    const execute = async (url, path, id) => {
+        await init(url, path, id)
+        .then((res) => addInputListener("click", "button", addOne, "btn~addItem"))
+        .then((res) => listSectionListener("click", "section", editOne, "section~list"))
+    }
+*/
 
 // trigger
 const url = "https://jsonplaceholder.typicode.com"

@@ -157,7 +157,7 @@ const Controller = ((api, model, view) => {
         return section;
     }
 
-    // grab data from backend and assign to state
+    // grab data from backend and assign to state, embed event listeners
     const init = async (url, path, id) => {
         // populate the data
         state.list = await api.getAll(url, path, id);
@@ -169,13 +169,6 @@ const Controller = ((api, model, view) => {
     };
     // const init = () => state.list = [];
 
-/*
-    const execute = async (url, path, id) => {
-        await init(url, path, id)
-        .then((res) => addInputListener("click", "button", addOne, "btn~addItem"))
-        .then((res) => listSectionListener("click", "section", editOne, "section~list"))
-    }
-*/
     return {init};
 })(api, model, view);
 
