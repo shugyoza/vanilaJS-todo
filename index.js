@@ -45,6 +45,9 @@ const View = (() => {
     // function to render all the list nodes after chaining them
     const render = (containerNode, listNode) => {
         if (!listNode || !containerNode) return;
+        // reset input.value to "" if there's any existing content
+        document.getElementById("input~addItem").value = "";
+
         const _id = listNode.id;
         // reset display by removing all list nodes in the container node (with the same id) from client
         if (document.getElementById(_id)) {
@@ -139,17 +142,31 @@ const Controller = ((api, model, view) => {
         const datum = new Datum(inputText, docID);
         const newList = [...state.list, datum];
         state.list = newList;
+        inputText.value = '';
+        return state.list;
     }
 
-    const addInputListener = (eventType, htmlTag, callback, id) => {
-        const btn = id ? document.getElementById(id) : document.querySelector(htmlTag); //`${id ? `#${id}` : htmlTag}`);
-        btn.addEventListener(eventType, addOne);
+    const editOne = (e) => {
+        console.log("editOne")
+    }
+
+    const addInputListener = (eventType, htmlTag, callback, nodeID) => {
+        const btn = nodeID ? document.getElementById(nodeID) : document.querySelector(htmlTag);
+        btn.addEventListener(eventType, callback);
         return btn;
+    }
+
+    const listSectionListener = (eventType, htmlTag, callback, nodeID) => {
+        console.log(155, nodeID, document.querySelector("section.section__list"))
+        const section = nodeID ? document.getElementById(nodeID) : document.querySelector(htmlTag);
+        // section.addEventListener(eventType, callback);
+        return section;
     }
 
     const execute = (url, path, id) => {
         init(url, path, id);
         addInputListener("click", "button", addOne, "btn~addItem");
+        listSectionListener("click", "section", (e) => {console.log(e)}, "section~list")
     }
 
     return {execute};
@@ -163,9 +180,9 @@ const main = document.querySelector("main")
 
         , inputSection = View.addOneNode(header, "section", "section__input")
             , inputField = View.addOneNode(inputSection, "input", "input__addItem", "addItem", "input").placeholder = "Title..."
-            , addButton = View.addOneNode(inputSection, "button", "btn__addItem", "addItem", "btn", "Add");
+            , addButton = View.addOneNode(inputSection, "button", "btn__addItem", "addItem", "btn", "Add")
 
-//    , listSection = View.addOneNode(undefined, "section", "section__list", "list", "section");
+    , listSection = View.addOneNode(main, "section", "section__list", "list", "section");
 
 
 // trigger
