@@ -131,31 +131,19 @@ const Controller = ((api, model, view) => {
 
     // const init = () => state.list = [];
 
-    const addOne = (title, completed, userId) => {
-        console.log('addOne')
-        // const datum = new Datum(title, "id", completed, userId);
-        // state.list = [datum, ...state.list];
-        // return state.list;
+    const addOne = (e) => {
+        const inputText = document.getElementById(`input~addItem`).value
+            , docID = state.list.length ? state.list[state.list.length - 1].id + 1 : 1;
+
+        // constructor(title, id, completed = false, userId = 100) {
+        const datum = new Datum(inputText, docID);
+        const newList = [...state.list, datum];
+        state.list = newList;
     }
 
     const addInputListener = (eventType, htmlTag, callback, id) => {
         const btn = id ? document.getElementById(id) : document.querySelector(htmlTag); //`${id ? `#${id}` : htmlTag}`);
-        btn.addEventListener(eventType, (e) => {
-            const inputText = document.getElementById(`input~addItem`).value
-                , docID = state.list.length ? state.list[state.list.length - 1].id + 1 : 1;
-
-            // const mainNode = document.querySelector("main")
-            //     , listNode = document.querySelector("section.section__list");
-            //     console.log(136, listNode);
-            // mainNode.removeChild(listNode);
-            // listNode.remove();
-            // listNode = View.addOneNode(undefined, "section", "section__list");
-
-            // constructor(title, id, completed = false, userId = 100) {
-            const datum = new Datum(inputText, docID);
-            const newList = [...state.list, datum];
-            state.list = newList;
-        });
+        btn.addEventListener(eventType, addOne);
         return btn;
     }
 
