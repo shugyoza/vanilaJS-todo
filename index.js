@@ -1,7 +1,7 @@
 "use strict"
 
 // VIEW
-const View = (() => {
+const view = (() => {
 
     const addOneNode = (parentNode, childTag, childClass, childID, idPrefix = '', childText) => {
         const childNode = document.createElement(childTag);
@@ -63,7 +63,7 @@ const View = (() => {
 })();
 
 // API
-const API = (() => {
+const api = (() => {
 
     const getAll = (url, path, id = '') => {
         return fetch(`${url}/${path}/${id}`)
@@ -83,7 +83,7 @@ const API = (() => {
 })();
 
 // MODEL
-const Model = ((view) => {
+const model = ((view) => {
     class Datum {
         constructor(title, id, completed = false, userId = 100) {
             this.title = title,
@@ -116,7 +116,7 @@ const Model = ((view) => {
 
     return {Datum, State};
 
-})(View);
+})(view);
 
 
 // CONTROLLER
@@ -125,14 +125,6 @@ const Controller = ((api, model, view) => {
     const {Datum, State} = model;
 
     const state = new State();
-
-    // grab data from backend and assign to state
-    const init = async (url, path, id) => {
-        state.list = await api.getAll(url, path, id);
-        return state.list;
-    };
-
-    // const init = () => state.list = [];
 
     const addOne = (e) => {
         const inputText = document.getElementById(`input~addItem`).value
@@ -145,12 +137,11 @@ const Controller = ((api, model, view) => {
         const datum = new Datum(inputText, docID);
         const newList = [...state.list, datum];
         state.list = newList;
-        inputText.value = '';
         return state.list;
     }
 
     const editOne = (e) => {
-        console.log("editOne")
+        console.log(e.target)
     }
 
     const addInputListener = (eventType, htmlTag, callback, nodeID) => {
@@ -160,36 +151,49 @@ const Controller = ((api, model, view) => {
     }
 
     const listSectionListener = (eventType, htmlTag, callback, nodeID) => {
-        console.log(155, nodeID, document.querySelector("section.section__list"))
         const section = nodeID ? document.getElementById(nodeID) : document.querySelector(htmlTag);
-        // section.addEventListener(eventType, callback);
+        section.addEventListener(eventType, callback);
+        console.log(164, section)
         return section;
     }
 
-    const execute = (url, path, id) => {
-        init(url, path, id);
-        addInputListener("click", "button", addOne, "btn~addItem");
-        listSectionListener("click", "section", (e) => {console.log(e)}, "section~list")
-    }
+    // grab data from backend and assign to state
+    const init = async (url, path, id) => {
+        // populate the data
+        state.list = await api.getAll(url, path, id);
+        // then add the event listeners
+        await addInputListener("click", "button", addOne, "btn~addItem")
+        await listSectionListener("click", "section", editOne, "section~list")
 
-    return {execute};
-})(API, Model, View);
+        return state.list;
+    };
+    // const init = () => state.list = [];
+
+/*
+    const execute = async (url, path, id) => {
+        await init(url, path, id)
+        .then((res) => addInputListener("click", "button", addOne, "btn~addItem"))
+        .then((res) => listSectionListener("click", "section", editOne, "section~list"))
+    }
+*/
+    return {init};
+})(api, model, view);
 
 
 // Static Lay-out
 const main = document.querySelector("main")
-    , header = View.addOneNode(main, "section", "header")
-        , title = View.addOneNode(header, "h1", "title", undefined, undefined, "Vanilla JS ToDo List")
+    , header = view.addOneNode(main, "section", "header")
+        , title = view.addOneNode(header, "h1", "title", undefined, undefined, "Vanilla JS ToDo List")
 
-        , inputSection = View.addOneNode(header, "section", "section__input")
-            , inputField = View.addOneNode(inputSection, "input", "input__addItem", "addItem", "input").placeholder = "Title..."
-            , addButton = View.addOneNode(inputSection, "button", "btn__addItem", "addItem", "btn", "Add")
-
-    , listSection = View.addOneNode(main, "section", "section__list", "list", "section");
+        , inputSection = view.addOneNode(header, "section", "section__input")
+            , inputField = view.addOneNode(inputSection, "input", "input__addItem", "addItem", "input").placeholder = "Title..."
+            , addButton = view.addOneNode(inputSection, "button", "btn__addItem", "addItem", "btn", "Add")
+    // this listSection must exist and hooked to main so that callback can grab it and add event listener
+    , listSection = view.addOneNode(main, "section", "section__list", "list", "section");
 
 
 // trigger
 const url = "https://jsonplaceholder.typicode.com"
     , path = "todos";
 
-Controller.execute(url, path);
+Controller.init(url, path);
