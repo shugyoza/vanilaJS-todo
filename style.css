@@ -28,3 +28,14 @@ body {
 body {
     background-color: whitesmoke;
 }
+
+.section__list {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.item {
+    display: flex;
+    gap: .3rem;
+    padding: .3rem;
+}
