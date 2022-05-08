@@ -138,6 +138,9 @@ const Controller = ((api, model, view) => {
         const inputText = document.getElementById(`input~addItem`).value
             , docID = state.list.length ? state.list[state.list.length - 1].id + 1 : 1;
 
+        // guard clause. if there is no input, do nothing
+        if (!inputText.trim().length) return;
+
         // constructor(title, id, completed = false, userId = 100) {
         const datum = new Datum(inputText, docID);
         const newList = [...state.list, datum];
