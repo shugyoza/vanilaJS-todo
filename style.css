@@ -3,11 +3,13 @@
     --height-todolist: 300px;
     --height-todolist-header: 30px;
 
-    --width-todolist: 400px;
+    --width-list-container: 80%;
+    --height-list-container: 90%;
 
     --color-pink: pink;
-    --color-red-btn: maroon;
+    --color-red-btn: red;
     --color-hover: yellow;
+    --color-gray: gray;
 }
 
 /* reset browser css setting */
@@ -17,6 +19,7 @@
     box-sizing: border-box;
     font-family: sans-serif;
     user-select: none;
+    font-size: min(4rem, max(.875rem, 2vw))
 }
 
 html,
@@ -27,15 +30,52 @@ body {
 
 body {
     background-color: whitesmoke;
+    display: flex;
+    justify-content: center
 }
 
-.section__list {
+main {
+    width: 80%
+}
+
+input[type=checkbox] {
+    transform: scale(2)
+}
+
+#list-container {
     display: flex;
     flex-direction: column-reverse;
+    align-items: center;
+    height: 80%;
+    overflow-y: scroll;
+    background-color: blanchedalmond;
 }
 
-.item {
+section.container__item {
     display: flex;
-    gap: .3rem;
+    gap: .6rem;
     padding: .3rem;
+    align-items: center;
+    width: 80%;
+    border-bottom: 1px solid gray;
+}
+
+span.seq-no {
+    width: 1.5rem
+}
+
+button.btn-delete {
+    background-color: transparent;
+    color: var(--color-red-btn);
+    font-weight: bolder;
+    padding-left: .3rem;
+    padding-right: .3rem;
+    border: none
+}
+
+.item_text {
+    border: none;
+    background-color: transparent;
+    text-align: left;
+    width: 100%;
 }

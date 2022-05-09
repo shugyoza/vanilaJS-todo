@@ -148,6 +148,7 @@ const init = async (url, path, id) => {
     }
 */
 
+/*
 // trigger
 const url = "https://jsonplaceholder.typicode.com"
     , path = "todos";
@@ -156,3 +157,31 @@ console.log(init(url, path));
 // console.log(Controller.init(url, path));
 
 */
+/*
+// Static Lay-out
+const main = document.querySelector("main")
+    , header = view.addOneNode(main, "section", "header")
+        , title = view.addOneNode(header, "h1", "title", undefined, undefined, "Vanilla JS ToDo List")
+
+        , inputSection = view.addOneNode(header, "section", "section__input")
+            , inputField = view.addOneNode(inputSection, "input", "input__addItem", "addItem", "input").placeholder = "Title..."
+            , addButton = view.addOneNode(inputSection, "button", "btn__addItem", "addItem", "btn", "Add")
+    // this listSection must exist and hooked to main so that callback can grab it and add event listener
+    , listSection = view.addOneNode(main, node.list.section.tag, node.list.section.className, node.list.section.id, node.list.section.prefix); // "section", "section__list", "list", "section");
+*/
+
+/*
+const url = "https://boilerplate-project-exercisetracker.shugyoza.repl.co/api" // "https://jsonplaceholder.typicode.com"
+    , path = "users" // "todos"; */
+
+    /*
+    // the text doew not render at all with this
+    const addOne = async (newDocument) => {
+        return await fetch(`${url}/${path}`, {
+            method: 'POST',
+            body: JSON.stringify(newDocument),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            },
+        });
+    } */
