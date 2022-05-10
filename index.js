@@ -109,7 +109,7 @@ const node = {
             },
 
             text: {
-                tag: "div",
+                tag: "input",
                 className: "item_text",
                 prefix: "item_text",
                 id: undefined,
@@ -137,6 +137,7 @@ const view = ((node) => {
         return childNode;
     };
 
+    // function to add a chain of nodes (items in a list)
     const addMoreNodes = (parentNode, childTag, childClass, childIDPrefix, dataList) => {
         if (!dataList.length || !Array.isArray(dataList)) return;
         let counter = dataList.length;
@@ -234,7 +235,7 @@ const model = ((view, api, node) => {
         #list = [];
 
         get list() {
-            console.log(this.#list, this.#list[this.#list.length - 1].completed)
+            console.log(this.#list)
             return this.#list;
         }
 
@@ -262,8 +263,28 @@ const controller = ((model, view, node) => {
     const {Item, State} = model;
     const state = new State();
 
+    const setEditable = (prefix, id, event) => {
+        const textNode = event.target;
+        const parentNode = event.target.parentNode;
+        const inputNode = view.addOneNode(undefined, "input", textNode.className, id, prefix, textNode.innerText);
+        // parentNode.replaceChild(inputNode, textNode);
+        // inputNode.value = textNode.innerText
+        textNode.addEventListener("keyup", (e) => {
+            if (e.target.value.trim() === '' || e.key !== "Enter") return;
+            const update = {title: e.target.value};
+            model.editOne(id, update)
+            .then((res) => {
+                state.list = state.list.map((doc) => {
+                    if (doc.id === id) {
+                        doc.title = update.title;
+                    }
+                })
+            })
+        })
+    }
+
     const toggleItem = (id, newCheckBoxValue) => {
-        let update = {completed: newCheckBoxValue};
+        const update = {completed: newCheckBoxValue};
         model.editOne(id, update)
         .then((res) => {
             state.list = state.list.map((doc) => {
@@ -285,7 +306,7 @@ const controller = ((model, view, node) => {
             const [prefix, id] = event.target.id.split(node.idConcater);
             if (prefix === node.list.item.buttonDelete.prefix) deleteItem(+id);
             else if (prefix === node.list.item.completed.prefix) toggleItem(+id, event.target.checked);
-            else if (prefix === node.list.item.text.prefix) console.log("edit me!")
+            else if (prefix === node.list.item.text.prefix) setEditable(prefix, +id, event);
         });
         return listNode;
     }

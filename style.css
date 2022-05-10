@@ -1,15 +1,16 @@
 :root {
-    --height-header: 60px;
-    --height-todolist: 300px;
-    --height-todolist-header: 30px;
-
     --width-list-container: 80%;
     --height-list-container: 90%;
 
+    --color-white: white;
     --color-pink: pink;
     --color-red-btn: red;
     --color-hover: yellow;
     --color-gray: gray;
+    --color-green: lightgreen;
+    --color-dark-green: darkgreen;
+    --color-almond: blanchedalmond;
+
 }
 
 /* reset browser css setting */
@@ -28,6 +29,11 @@ body {
     height: 100vh;
 }
 
+h1 {
+    margin: 1rem;
+    font-size: 1.5rem;
+}
+
 body {
     background-color: whitesmoke;
     display: flex;
@@ -35,7 +41,25 @@ body {
 }
 
 main {
-    width: 80%
+    height: 90%;
+    width: 80%;
+    background-color: var(--color-almond);
+    border-radius: var(--border-radius);
+    margin-top: .5rem;
+}
+
+.container__input {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 1rem;
+    gap: .5rem;
+}
+
+.input__addItem {
+    width: 100%;
+    padding-left: .5rem;
+    border: none;
+    border-radius: .3rem;
 }
 
 input[type=checkbox] {
@@ -48,7 +72,8 @@ input[type=checkbox] {
     align-items: center;
     height: 80%;
     overflow-y: scroll;
-    background-color: blanchedalmond;
+    background-color: var(--color-almond);
+    padding: 1rem;
 }
 
 section.container__item {
@@ -78,4 +103,20 @@ button.btn-delete {
     background-color: transparent;
     text-align: left;
     width: 100%;
+}
+
+.btn__addItem {
+    background-color: var(--color-dark-green);
+    color: var(--color-white);
+    padding: .3rem;
+    border: none;
+    border-radius: .3rem;
+    flex-basis: 0;
+}
+
+.container__item:hover,
+.btn__addItem:hover {
+    background-color: var(--color-green);
+    color: black;
+    font-weight: bold;
 }
