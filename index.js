@@ -105,7 +105,7 @@ const node = {
                 id: undefined,
                 text: undefined,
                 type: "checkbox",
-                checked: false
+                checked: "checked"
             },
 
             text: {
@@ -150,7 +150,7 @@ const view = ((node) => {
             // add completed check input to childNode
             const completed = addOneNode(listNode, node.list.item.completed.tag, node.list.item.completed.className, item.id, node.list.item.completed.prefix);
             completed.type = node.list.item.completed.type;
-            if (item.completed == true) completed.checked = "checked";
+            if (item.completed == true) completed.checked = node.list.item.completed.checked;
             // add the item text to childNode
             addOneNode(listNode, node.list.item.text.tag, node.list.item.text.className, item.id, node.list.item.text.prefix, item.title);
             parentNode.appendChild(listNode);
