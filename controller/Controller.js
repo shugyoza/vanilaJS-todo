@@ -13,9 +13,11 @@ const Controller = (model, view, node) => {
     const {Item, State} = model;
     const state = new State();
 
-    const setEditable = (prefix, id, event) => {
-        // const textNode = event.target;
-        // const parentNode = event.target.parentNode;
+    const editText = (prefix, id, event) => {
+        const textNode = event.target;
+        const parentNode = event.target.parentNode;
+        console.log(textNode, parentNode)
+        const btnSave = view.addOneNode(parentNode, node.list.item.buttonSave.tag, node.list.item.buttonSave.className, node.list.item.buttonSave.prefix, id, node.list.item.buttonSave.text)
         // const inputNode = view.addOneNode(undefined, "input", textNode.className, id, prefix, textNode.innerText);
         // // parentNode.replaceChild(inputNode, textNode);
         // // inputNode.value = textNode.innerText
@@ -33,25 +35,20 @@ const Controller = (model, view, node) => {
         // })
     }
 
-    const toggleItem = (id, newCheckBoxValue) => {
-        // const update = {completed: newCheckBoxValue};
-        // model.editOne(id, update)
-        // .then((res) => {
-        //     state.list = state.list.map((doc) => {
-        //         if (doc.id === id) {
-        //             doc.completed = newCheckBoxValue;
-        //         }
-        //     })
-        // })
-    }
+    const toggleItem = async (id, newCheckBoxValue) => {
+        const update = {isCompleted: newCheckBoxValue};
+        const result = await model.editOne(id, update);
+        /* unlike clicked button, a toggled checkbox won't fire a re-render,
+        thus we invoke state.list = model.getAll() to force a re-render */
+        if (result) state.list = await model.getAll();
+        else state.list = [...state.list];
+        return result;
+    };
 
     const deleteItem = async (id) => {
         const result = await model.deleteOne(id);
-        console.log(result.ok)
         if (result.ok) state.list = state.list.filter((doc) => doc.id !== id)
         else state.list = [...state.list];
-        listUpdateListener();
-        // exec();
         return result;
     }
 
@@ -60,9 +57,14 @@ const Controller = (model, view, node) => {
         listNode.addEventListener("click", (event) => {
             console.log(event)
             const [prefix, id] = event.target.id.split(node.idConcater);
-            if (prefix === node.list.item.buttonDelete.prefix) deleteItem(+id);
+
+            // check for existing save button
+            // const saveBtns = document.querySelectorAll()
+
+
+            if (prefix === node.list.item.text.prefix) editText(prefix, +id, event);
+            else if (prefix === node.list.item.buttonDelete.prefix) deleteItem(+id);
             else if (prefix === node.list.item.completed.prefix) toggleItem(+id, event.target.checked);
-            else if (prefix === node.list.item.text.prefix) setEditable(prefix, +id, event);
         });
         return listNode;
     }
@@ -80,8 +82,6 @@ const Controller = (model, view, node) => {
         // update the state.list for a re-render
         if (addedItem) state.list = [...state.list, addedItem];
         else state.list = [...state.list];
-        listUpdateListener();
-        // exec();
         return addedItem;
     }
 

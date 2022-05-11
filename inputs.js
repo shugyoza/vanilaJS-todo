@@ -59,15 +59,8 @@ export const node = {
             prefix: "btn",
             id: "addItem",
             text: "Add"
-        },
-
-        buttonSave: {
-            tag: "button",
-            className: "btn__saveText",
-            prefix: "btn",
-            id: "saveText",
-            text: "Save"
         }
+
     },
 
     list: {
@@ -118,6 +111,14 @@ export const node = {
                 prefix: "item_delete",
                 id: undefined,
                 text: "x"
+            },
+
+            buttonSave: {
+                tag: "button",
+                className: "btn-save",
+                prefix: "item_save",
+                id: null,
+                text: "Save"
             },
 
             completed: {
