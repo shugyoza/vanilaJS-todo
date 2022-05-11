@@ -36,10 +36,6 @@ const Controller = (model, view, node) => {
         });
     };
 
-    const saveAbandonedEdits = async (event) => {
-        console.log(event)
-    }
-
     // function to call saveEdit to save text in text field into the backend when user press enter
     const handleEnter = (event) => {
         if (event.key === "Enter") {
@@ -114,6 +110,19 @@ const Controller = (model, view, node) => {
         return btn;
     }
 
+    /* if user click on any element that has no corresponding id with data in the backend,
+    remove any save button in the DOM and save whatever text in that text field where save button exist
+    to the backend */
+    const bodyListener = () => {
+        const bod = document.querySelector("body");
+        bod.addEventListener("click", (event) => {
+            const [prefix, id] = event.target.id.split(`${node.idConcater}`);
+            console.log(event.target.id, +id);
+
+            if (!event.target.id || !+id) removeSaveButtons();
+        })
+    }
+
     // grab data from backend and assign to state, embed event listeners
     const init = async () => {
         const list = await model.getAll();
@@ -126,6 +135,7 @@ const Controller = (model, view, node) => {
         addItemListener();
         // without async await, the chain of items not formed yet for listeners to work properly
         listUpdateListener();
+        bodyListener();
     }
 
     return {exec};
