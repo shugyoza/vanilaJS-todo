@@ -79,6 +79,22 @@ export const node = {
             text: undefined
         },
 
+        subcontainerA: {
+            tag: "section",
+            className: "container__sublist",
+            prefix: "list",
+            id: "subcontainerA",
+            text: null
+        },
+
+        subcontainerB: {
+            tag: "section",
+            className: "container__sublist",
+            prefix: "list",
+            id: "subcontainerB",
+            text: null
+        },
+
         item: {
             container: {
                 tag: "section",
