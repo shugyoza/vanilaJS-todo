@@ -19,6 +19,7 @@ const Model = (view, api, node) => {
             this.isCompleted = isCompleted
         }
     }
+
     class State {
 
         #list = [];
@@ -30,16 +31,6 @@ const Model = (view, api, node) => {
 
         set list(newList) {
             this.#list = [...newList];
-/*
-            // create a parent node to stick all the child nodes
-            const listNode = view.addOneNode(undefined, node.list.container.tag, node.list.container.className, node.list.container.id, node.list.container.prefix);
-            // adding child nodes to listNode
-            view.addMoreNodes(listNode, node.list.item.container.tag, node.list.item.container.className, node.list.item.container.prefix, this.#list)
-            // grab container element to hook
-            const mainNode = document.querySelector(node.main.tag);
-            // render on client by sticking the listNode -parentNode- to mainNode
-            view.render(mainNode, listNode);
-        } */
 
             // create a parent node to stick all the child nodes in sublist todo
             const listNodeA = view.addOneNode(undefined, node.list.subcontainerA.tag, node.list.subcontainerA.className, node.list.subcontainerA.id, node.list.subcontainerA.prefix);
@@ -59,7 +50,6 @@ const Model = (view, api, node) => {
             view.render(listContainer, listNodeA);
             view.render(listContainer, listNodeB);
         }
-
     }
 
     return {Item, State, getAll, addOne, editOne, deleteOne};
