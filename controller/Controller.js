@@ -19,6 +19,7 @@ const Controller = (model, view, node) => {
         saveBtns.forEach((btn) => btn.remove());
     }
 
+    // function to save whatever value in the text field into the backend
     const saveEdit = async (prefix, id, event) => {
         const inputField = document.getElementById(`${node.list.item.text.prefix}${node.idConcater}${id}`);
         console.log(inputField.value);
@@ -27,24 +28,24 @@ const Controller = (model, view, node) => {
         return result;
     }
 
+    // function to call saveEdit to save text in text field into the backend when user press enter
+    const handleEnter = (event) => {
+        if (e.key === "Enter") {
+            const [prefix, id] = event.target.id.split(node.idConcater);
+            saveEdit(prefix, id, e);
+            // move focus to the add item field
+            document.getElementById(`${node.input.field.prefix}${node.idConcater}${node.input.field.id}`).focus();
+            removeSaveButtons();
+            return
+        }
+    }
+
+    // function to popup SAVE button and embed event listener to the field to save text edit if user press enter
     const editText = (prefix, id, event) => {
         const inputField = event.target;
         const parentNode = event.target.parentNode;
         view.addOneNode(parentNode, node.list.item.buttonSave.tag, node.list.item.buttonSave.className, id, node.list.item.buttonSave.prefix, node.list.item.buttonSave.text);
-        inputField.addEventListener("keyup", saveEdit);
-        // btnSave.addEventListener("click", saveEdit);
-        // textNode.addEventListener("keyup", (e) => {
-        //     if (e.target.value.trim() === '' || e.key !== "Enter") return;
-        //     const update = {title: e.target.value};
-        //     model.editOne(id, update)
-        //     .then((res) => {
-        //         state.list = state.list.map((doc) => {
-        //             if (doc.id === id) {
-        //                 doc.title = update.title;
-        //             }
-        //         })
-        //     })
-        // })
+        inputField.addEventListener("keyup", handleEnter);
     }
 
     const toggleItem = async (id, newCheckBoxValue) => {
