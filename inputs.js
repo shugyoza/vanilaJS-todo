@@ -19,7 +19,7 @@ export const node = {
     },
 
     header: {
-        tag: "section",
+        tag: "header",
         className: "header",
         prefix: null,
         id: null,
@@ -44,16 +44,16 @@ export const node = {
         },
         account: {
             tag: "div",
-            className: "account",
+            className: "container__account",
             prefix: null,
             id: null,
-            text: null
+            text: "account"
         }
     },
 
     input: {
         container: {
-            tag: "section",
+            tag: "div",
             className: "container__input",
             prefix: "container",
             id: "input",
@@ -82,7 +82,7 @@ export const node = {
 
     list: {
         container: {
-            tag: "section",
+            tag: "div",
             className: "container__list",
             prefix: "list",
             id: "container",
@@ -107,7 +107,7 @@ export const node = {
 
         item: {
             container: {
-                tag: "section",
+                tag: "div",
                 className: "container__item",
                 prefix: "item_container",
                 id: null,
@@ -161,7 +161,7 @@ export const node = {
 
     footer: {
         container: {
-            tag: "section",
+            tag: "footer",
             className: "container__footer",
             prefix: null,
             id: null,
