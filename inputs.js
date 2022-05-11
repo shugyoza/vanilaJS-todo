@@ -34,6 +34,23 @@ export const node = {
         text: "Vanilla JS ToDo App"
     },
 
+    nav: {
+        container: {
+            tag: "nav",
+            className: "container__navbar",
+            prefix: "container",
+            id: "navbar",
+            text: null
+        },
+        account: {
+            tag: "div",
+            className: "account",
+            prefix: null,
+            id: null,
+            text: null
+        }
+    },
+
     input: {
         container: {
             tag: "section",
@@ -139,6 +156,17 @@ export const node = {
                 text: null,
                 type: "text",
             }
+        }
+    },
+
+    footer: {
+        container: {
+            tag: "section",
+            className: "container__footer",
+            prefix: null,
+            id: null,
+            text: null,
+            type: null
         }
     }
 }

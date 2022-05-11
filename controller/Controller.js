@@ -24,7 +24,7 @@ const Controller = (model, view, node) => {
     // function to remove all save buttons in the existing DOM AND save whatever text in the textfield into backend
     const removeSaveButtons = async () => {
         const saveBtns = document.querySelectorAll(`.${node.list.item.buttonSave.className}`)
-        await saveBtns.forEach(async (btn) => {
+        saveBtns.forEach(async (btn) => {
             const [prefix, id] = btn.id.split(`${node.idConcater}`);
             // grab the corresponding text field
             const textField = document.getElementById(`${node.list.item.text.prefix}${node.idConcater}${id}`);
@@ -34,6 +34,7 @@ const Controller = (model, view, node) => {
             else await model.editOne(id, {content: textField.value})
             btn.remove();
         });
+        return;
     };
 
     // function to call saveEdit to save text in text field into the backend when user press enter
@@ -82,7 +83,6 @@ const Controller = (model, view, node) => {
             else if (prefix === node.list.item.buttonDelete.prefix) deleteItem(+id);
             else if (prefix === node.list.item.completed.prefix) toggleItem(+id, event.target.checked);
             else if (prefix === node.list.item.buttonSave.prefix) saveEdit(prefix, +id, event);
-            else saveAbandonedEdits(event);
         });
         return listNode;
     }
@@ -117,10 +117,9 @@ const Controller = (model, view, node) => {
         const bod = document.querySelector("body");
         bod.addEventListener("click", (event) => {
             const [prefix, id] = event.target.id.split(`${node.idConcater}`);
-            console.log(event.target.id, +id);
-
             if (!event.target.id || !+id) removeSaveButtons();
-        })
+        });
+        return;
     }
 
     // grab data from backend and assign to state, embed event listeners

@@ -11,6 +11,7 @@ const API = (endPoint) => {
     const getAll = async () => {
         const result = await fetch(`${url}/${path}`).then((response) => response.json());
         return result;
+
     };
 
     const addOne = async (newDocument) => {
