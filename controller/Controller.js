@@ -13,19 +13,31 @@ const Controller = (model, view, node) => {
     const {Item, State} = model;
     const state = new State();
 
-    // function to remove all save buttons in the existing DOM
-    const removeSaveButtons = () => {
-        const saveBtns = document.querySelectorAll(`.${node.list.item.buttonSave.className}`)
-        saveBtns.forEach((btn) => btn.remove());
-    }
-
     // function to save whatever value in the text field into the backend
     const saveEdit = async (prefix, id, event) => {
         const inputField = document.getElementById(`${node.list.item.text.prefix}${node.idConcater}${id}`);
-        console.log(inputField.value);
         if (inputField.value.trim() === '') await init();
         const result = await model.editOne(id, {content: inputField.value});
         return result;
+    };
+
+    // function to remove all save buttons in the existing DOM AND save whatever text in the textfield into backend
+    const removeSaveButtons = async () => {
+        const saveBtns = document.querySelectorAll(`.${node.list.item.buttonSave.className}`)
+        await saveBtns.forEach(async (btn) => {
+            const [prefix, id] = btn.id.split(`${node.idConcater}`);
+            // grab the corresponding text field
+            const textField = document.getElementById(`${node.list.item.text.prefix}${node.idConcater}${id}`);
+            // GUARD clause!!
+            if (textField.value.trim() === '') await init();
+            // persist the value into the backend
+            else await model.editOne(id, {content: textField.value})
+            btn.remove();
+        });
+    };
+
+    const saveAbandonedEdits = async (event) => {
+        console.log(event)
     }
 
     // function to call saveEdit to save text in text field into the backend when user press enter
@@ -37,8 +49,8 @@ const Controller = (model, view, node) => {
             document.getElementById(`${node.input.field.prefix}${node.idConcater}${node.input.field.id}`).focus();
             removeSaveButtons();
             return
-        }
-    }
+        };
+    };
 
     // function to popup SAVE button and embed event listener to the field to save text edit if user press enter
     const editText = (prefix, id, event) => {
@@ -73,7 +85,8 @@ const Controller = (model, view, node) => {
             if (prefix === node.list.item.text.prefix) editText(prefix, +id, event);
             else if (prefix === node.list.item.buttonDelete.prefix) deleteItem(+id);
             else if (prefix === node.list.item.completed.prefix) toggleItem(+id, event.target.checked);
-            else if (prefix === node.list.item.buttonSave.prefix) saveEdit(prefix, +id, event)
+            else if (prefix === node.list.item.buttonSave.prefix) saveEdit(prefix, +id, event);
+            else saveAbandonedEdits(event);
         });
         return listNode;
     }
