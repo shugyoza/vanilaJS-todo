@@ -7,12 +7,16 @@ import view from "../view/View.js";
 const Model = (view, api, node) => {
     const {getAll, addOne, editOne, deleteOne} = api;
     class Item {
-        constructor(title, id, completed = false, userId = 100) {
-            // try align the following properties order the same with the seed data properties order
-            this.userId = userId,
+        // constructor(title, id, completed = false, userId = 100) {
+        //     // try align the following properties order the same with the seed data properties order
+        //     this.userId = userId,
+        //     this.id = id,
+        //     this.title = title,
+        //     this.completed = completed
+        constructor(content, id, isCompleted = false) {
+            this.content = content,
             this.id = id,
-            this.title = title,
-            this.completed = completed
+            this.isCompleted = isCompleted
         }
     }
     class State {
@@ -27,7 +31,7 @@ const Model = (view, api, node) => {
         set list(newList) {
             this.#list = [...newList];
             // create a parent node to stick all the child nodes
-            const listNode = view.addOneNode(undefined, node.list.container.tag, node.list.container.className, node.list.container.id, node.list.container.prefix)// "section", "section__list", "list", "section");
+            const listNode = view.addOneNode(undefined, node.list.container.tag, node.list.container.className, node.list.container.id, node.list.container.prefix);
             // adding child nodes to listNode
             view.addMoreNodes(listNode, node.list.item.container.tag, node.list.item.container.className, node.list.item.container.prefix, this.#list)
             // grab container element to hook
