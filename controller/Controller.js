@@ -19,18 +19,20 @@ const Controller = (model, view, node) => {
         saveBtns.forEach((btn) => btn.remove());
     }
 
-    const saveEdit = (prefix, id, event) => {
+    const saveEdit = async (prefix, id, event) => {
         const inputField = document.getElementById(`${node.list.item.text.prefix}${node.idConcater}${id}`);
-        console.log(inputField.value)
+        console.log(inputField.value);
+        if (inputField.value.trim() === '') await init();
+        const result = await model.editOne(id, {content: inputField.value});
+        return result;
     }
 
     const editText = (prefix, id, event) => {
         const inputField = event.target;
         const parentNode = event.target.parentNode;
-        console.log(inputField, parentNode)
-        const btnSave = view.addOneNode(parentNode, node.list.item.buttonSave.tag, node.list.item.buttonSave.className, id, node.list.item.buttonSave.prefix, node.list.item.buttonSave.text);
+        view.addOneNode(parentNode, node.list.item.buttonSave.tag, node.list.item.buttonSave.className, id, node.list.item.buttonSave.prefix, node.list.item.buttonSave.text);
         inputField.addEventListener("keyup", saveEdit);
-        btnSave.addEventListener("click", saveEdit);
+        // btnSave.addEventListener("click", saveEdit);
         // textNode.addEventListener("keyup", (e) => {
         //     if (e.target.value.trim() === '' || e.key !== "Enter") return;
         //     const update = {title: e.target.value};
@@ -65,7 +67,6 @@ const Controller = (model, view, node) => {
     const listUpdateListener = () => {
         const listNode = document.getElementById(`${node.list.container.prefix}${node.idConcater}${node.list.container.id}`);
         listNode.addEventListener("click", (event) => {
-            console.log(event)
             const [prefix, id] = event.target.id.split(node.idConcater);
             removeSaveButtons();
             if (prefix === node.list.item.text.prefix) editText(prefix, +id, event);
