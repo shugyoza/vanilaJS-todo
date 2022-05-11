@@ -30,9 +30,9 @@ const Controller = (model, view, node) => {
 
     // function to call saveEdit to save text in text field into the backend when user press enter
     const handleEnter = (event) => {
-        if (e.key === "Enter") {
+        if (event.key === "Enter") {
             const [prefix, id] = event.target.id.split(node.idConcater);
-            saveEdit(prefix, id, e);
+            saveEdit(prefix, id, event);
             // move focus to the add item field
             document.getElementById(`${node.input.field.prefix}${node.idConcater}${node.input.field.id}`).focus();
             removeSaveButtons();
@@ -85,6 +85,7 @@ const Controller = (model, view, node) => {
         // create new instance of item
         const newItem = new Item(inputField.value, docID);
         inputField.value = "";
+        inputField.focus();
         // persist the addition to backend
         const addedItem = await model.addOne(newItem);
 
