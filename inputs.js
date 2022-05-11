@@ -12,25 +12,25 @@ export const node = {
 
     main: {
         tag: "main",
-        className: undefined,
-        prefix: undefined,
-        id: undefined,
-        text: undefined
+        className: null,
+        prefix: null,
+        id: null,
+        text: null
     },
 
     header: {
         tag: "section",
         className: "header",
-        prefix: undefined,
-        id: undefined,
-        text: undefined
+        prefix: null,
+        id: null,
+        text: null
     },
 
     title: {
         tag: "h1",
         className: "title",
-        prefix: undefined,
-        id: undefined,
+        prefix: null,
+        id: null,
         text: "Vanilla JS ToDo App"
     },
 
@@ -40,7 +40,7 @@ export const node = {
             className: "container__input",
             prefix: "container",
             id: "input",
-            text: undefined,
+            text: null,
         },
 
         field: {
@@ -48,7 +48,7 @@ export const node = {
             className: "input__addItem",
             prefix: "input",
             id: "addItem",
-            text: undefined,
+            text: null,
             type: "text",
             placeholder: "Title..."
         },
@@ -69,7 +69,7 @@ export const node = {
             className: "container__list",
             prefix: "list",
             id: "container",
-            text: undefined
+            text: null
         },
 
         subcontainerA: {
@@ -93,23 +93,23 @@ export const node = {
                 tag: "section",
                 className: "container__item",
                 prefix: "item_container",
-                id: undefined,
-                text: undefined
+                id: null,
+                text: null
             },
 
             no: {
                 tag: "span",
                 className: "seq-no",
                 prefix: "item_seq",
-                id: undefined,
-                text: undefined
+                id: null,
+                text: null
             },
 
             buttonDelete: {
                 tag: "button",
                 className: "btn-delete",
                 prefix: "item_delete",
-                id: undefined,
+                id: null,
                 text: "x"
             },
 
@@ -125,8 +125,8 @@ export const node = {
                 tag: "input",
                 className: "check-done",
                 prefix: "item_check",
-                id: undefined,
-                text: undefined,
+                id: null,
+                text: null,
                 type: "checkbox",
                 checked: "checked"
             },
@@ -135,8 +135,8 @@ export const node = {
                 tag: "input",
                 className: "item_text",
                 prefix: "item_text",
-                id: undefined,
-                text: undefined,
+                id: null,
+                text: null,
                 type: "text",
             }
         }

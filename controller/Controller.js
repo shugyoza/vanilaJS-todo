@@ -13,14 +13,24 @@ const Controller = (model, view, node) => {
     const {Item, State} = model;
     const state = new State();
 
+    // function to remove all save buttons in the existing DOM
+    const removeSaveButtons = () => {
+        const saveBtns = document.querySelectorAll(`.${node.list.item.buttonSave.className}`)
+        saveBtns.forEach((btn) => btn.remove());
+    }
+
+    const saveEdit = (prefix, id, event) => {
+        const inputField = document.getElementById(`${node.list.item.text.prefix}${node.idConcater}${id}`);
+        console.log(inputField.value)
+    }
+
     const editText = (prefix, id, event) => {
-        const textNode = event.target;
+        const inputField = event.target;
         const parentNode = event.target.parentNode;
-        console.log(textNode, parentNode)
-        const btnSave = view.addOneNode(parentNode, node.list.item.buttonSave.tag, node.list.item.buttonSave.className, node.list.item.buttonSave.prefix, id, node.list.item.buttonSave.text)
-        // const inputNode = view.addOneNode(undefined, "input", textNode.className, id, prefix, textNode.innerText);
-        // // parentNode.replaceChild(inputNode, textNode);
-        // // inputNode.value = textNode.innerText
+        console.log(inputField, parentNode)
+        const btnSave = view.addOneNode(parentNode, node.list.item.buttonSave.tag, node.list.item.buttonSave.className, id, node.list.item.buttonSave.prefix, node.list.item.buttonSave.text);
+        inputField.addEventListener("keyup", saveEdit);
+        btnSave.addEventListener("click", saveEdit);
         // textNode.addEventListener("keyup", (e) => {
         //     if (e.target.value.trim() === '' || e.key !== "Enter") return;
         //     const update = {title: e.target.value};
@@ -57,14 +67,11 @@ const Controller = (model, view, node) => {
         listNode.addEventListener("click", (event) => {
             console.log(event)
             const [prefix, id] = event.target.id.split(node.idConcater);
-
-            // check for existing save button
-            // const saveBtns = document.querySelectorAll()
-
-
+            removeSaveButtons();
             if (prefix === node.list.item.text.prefix) editText(prefix, +id, event);
             else if (prefix === node.list.item.buttonDelete.prefix) deleteItem(+id);
             else if (prefix === node.list.item.completed.prefix) toggleItem(+id, event.target.checked);
+            else if (prefix === node.list.item.buttonSave.prefix) saveEdit(prefix, +id, event)
         });
         return listNode;
     }
