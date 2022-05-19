@@ -1,6 +1,6 @@
 "use strict"
 import {node} from "../inputs.js";
-import view from "../view/View.js";
+import view from "./View.js";
 // Static Lay-out
 
 const Layout = (node, view) => {

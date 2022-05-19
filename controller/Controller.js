@@ -77,8 +77,8 @@ const Controller = (model, view, node) => {
     const listUpdateListener = () => {
         const listNode = document.getElementById(`${node.list.container.prefix}${node.idConcater}${node.list.container.id}`);
         listNode.addEventListener("click", (event) => {
-            const [prefix, id] = event.target.id.split(node.idConcater);
             removeSaveButtons();
+            const [prefix, id] = event.target.id.split(node.idConcater);
             if (prefix === node.list.item.text.prefix) editText(prefix, +id, event);
             else if (prefix === node.list.item.buttonDelete.prefix) deleteItem(+id);
             else if (prefix === node.list.item.completed.prefix) toggleItem(+id, event.target.checked);
